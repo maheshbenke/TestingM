@@ -41,6 +41,9 @@ Sub FormatWorksheet()
             blankCells.Value = "-"
         End If
 
+        ' Copy all cells from column C starting from C3 to column B starting from B2
+        ws.Range("C3:C" & ws.Cells(Rows.Count, "C").End(xlUp).Row).Copy Destination:=ws.Range("B2")
+
         ' Resize all the cells to fit the content
         ws.Cells.EntireColumn.AutoFit
         ws.Cells.EntireRow.AutoFit
