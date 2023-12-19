@@ -1,0 +1,24 @@
+Sub FormatWorksheet()
+    Dim ws As Worksheet
+    Dim rng As Range
+
+    For Each ws In ThisWorkbook.Worksheets
+        ' Remove the first 8 rows
+        ws.Rows("1:8").Delete
+
+        ' Unmerge all cells
+        ws.Cells.UnMerge
+
+        ' Unwrap text in all cells
+        ws.Cells.WrapText = False
+
+        ' Remove underline from texts in all cells
+        For Each rng In ws.UsedRange
+            rng.Font.Underline = False
+        Next rng
+
+        ' Resize all the cells to fit the content
+        ws.Cells.EntireColumn.AutoFit
+        ws.Cells.EntireRow.AutoFit
+    Next ws
+End Sub
