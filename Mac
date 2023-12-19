@@ -1,6 +1,7 @@
 Sub FormatWorksheet()
     Dim ws As Worksheet
     Dim rng As Range
+    Dim cell As Range
     Dim blankCells As Range
 
     For Each ws In ThisWorkbook.Worksheets
@@ -24,6 +25,13 @@ Sub FormatWorksheet()
         For Each rng In ws.UsedRange
             rng.Font.Underline = False
         Next rng
+
+        ' Replace all cells in column C that do not contain "Name" with "-"
+        For Each cell In ws.Range("C1:C" & ws.Cells(Rows.Count, "C").End(xlUp).Row)
+            If InStr(cell.Value, "Name") = 0 Then
+                cell.Value = "-"
+            End If
+        Next cell
 
         ' Replace all blank cells in the range A1 to R1910 with "-"
         On Error Resume Next ' In case there are no blank cells
