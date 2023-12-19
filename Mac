@@ -6,6 +6,13 @@ Sub FormatWorksheet()
         ' Remove the first 8 rows
         ws.Rows("1:8").Delete
 
+        ' Update the first row with specific headings
+        ws.Range("A1").Value = "A1"
+        ws.Range("B1").Value = "B1"
+        ws.Range("C1").Value = "C1"
+        ws.Range("D1").Value = "D1"
+        ws.Range("E1").Value = "E1"
+
         ' Unmerge all cells
         ws.Cells.UnMerge
 
