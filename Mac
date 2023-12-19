@@ -6,6 +6,7 @@ Sub FormatWorksheet()
     Dim sourceCell As Range
     Dim destinationCell As Range
     Dim sourceCellI As Range
+    Dim sourceCellI2 As Range
 
     For Each ws In ThisWorkbook.Worksheets
         ' Remove the first 8 rows
@@ -89,6 +90,20 @@ Sub FormatWorksheet()
                 cell.Value = "-"
             End If
         Next cell
+
+        ' Delete all data in column G and replace with "-"
+        ws.Range("G1:G" & ws.Cells(Rows.Count, "G").End(xlUp).Row).Value = "-"
+
+        ' Delete all data in column H and replace with "-"
+        ws.Range("H1:H" & ws.Cells(Rows.Count, "H").End(xlUp).Row).Value = "-"
+
+        ' Find the first cell in column I that contains "ABC"
+        Set sourceCellI2 = ws.Columns("I").Find("ABC")
+
+        ' If a cell containing "ABC" is found, copy the cells from that cell to the end of the column to column F starting from F3
+        If Not sourceCellI2 Is Nothing Then
+            ws.Range(sourceCellI2, ws.Cells(ws.Rows.Count, "I").End(xlUp)).Copy Destination:=ws.Range("F3")
+        End If
 
         ' Resize all the cells to fit the content
         ws.Cells.EntireColumn.AutoFit
