@@ -3,6 +3,9 @@ Sub FormatWorksheet()
     Dim rng As Range
     Dim cell As Range
     Dim blankCells As Range
+    Dim sourceCell As Range
+    Dim destinationCell As Range
+    Dim sourceCellI As Range
 
     For Each ws In ThisWorkbook.Worksheets
         ' Remove the first 8 rows
@@ -56,7 +59,23 @@ Sub FormatWorksheet()
                 cell.Value = "-"
             End If
         Next cell
-        
+
+        ' Find the first cell in column H that contains "ABC"
+        Set sourceCell = ws.Columns("H").Find("ABC")
+
+        ' If a cell containing "ABC" is found, copy the cells from that cell to the end of the column to column D starting from D3
+        If Not sourceCell Is Nothing Then
+            ws.Range(sourceCell, ws.Cells(ws.Rows.Count, "H").End(xlUp)).Copy Destination:=ws.Range("D3")
+        End If
+
+        ' Find the first cell in column I that contains "ABC"
+        Set sourceCellI = ws.Columns("I").Find("ABC")
+
+        ' If a cell containing "ABC" is found, copy the cells from that cell to the end of the column to column E starting from E3
+        If Not sourceCellI Is Nothing Then
+            ws.Range(sourceCellI, ws.Cells(ws.Rows.Count, "I").End(xlUp)).Copy Destination:=ws.Range("E3")
+        End If
+
         ' Resize all the cells to fit the content
         ws.Cells.EntireColumn.AutoFit
         ws.Cells.EntireRow.AutoFit
