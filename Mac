@@ -76,6 +76,20 @@ Sub FormatWorksheet()
             ws.Range(sourceCellI, ws.Cells(ws.Rows.Count, "I").End(xlUp)).Copy Destination:=ws.Range("E3")
         End If
 
+        ' Replace all cells in column D that do not contain "ABC" with "-"
+        For Each cell In ws.Range("D1:D" & ws.Cells(Rows.Count, "D").End(xlUp).Row)
+            If InStr(cell.Value, "ABC") = 0 Then
+                cell.Value = "-"
+            End If
+        Next cell
+
+        ' Replace all cells in column E that do not contain "ABC" with "-"
+        For Each cell In ws.Range("E1:E" & ws.Cells(Rows.Count, "E").End(xlUp).Row)
+            If InStr(cell.Value, "ABC") = 0 Then
+                cell.Value = "-"
+            End If
+        Next cell
+
         ' Resize all the cells to fit the content
         ws.Cells.EntireColumn.AutoFit
         ws.Cells.EntireRow.AutoFit
