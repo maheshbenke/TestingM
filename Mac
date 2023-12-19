@@ -1,6 +1,7 @@
 Sub FormatWorksheet()
     Dim ws As Worksheet
     Dim rng As Range
+    Dim blankCells As Range
 
     For Each ws In ThisWorkbook.Worksheets
         ' Remove the first 8 rows
@@ -23,6 +24,14 @@ Sub FormatWorksheet()
         For Each rng In ws.UsedRange
             rng.Font.Underline = False
         Next rng
+
+        ' Replace all blank cells in the range A1 to R1910 with "-"
+        On Error Resume Next ' In case there are no blank cells
+        Set blankCells = ws.Range("A1:R1910").SpecialCells(xlCellTypeBlanks)
+        On Error GoTo 0
+        If Not blankCells Is Nothing Then
+            blankCells.Value = "-"
+        End If
 
         ' Resize all the cells to fit the content
         ws.Cells.EntireColumn.AutoFit
