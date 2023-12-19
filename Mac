@@ -2,7 +2,6 @@ Sub FormatWorksheet()
     Dim ws As Worksheet
     Dim rng As Range
     Dim cell As Range
-    Dim blankCells As Range
 
     For Each ws In ThisWorkbook.Worksheets
         ' Remove the first 8 rows
@@ -26,23 +25,18 @@ Sub FormatWorksheet()
             rng.Font.Underline = False
         Next rng
 
-        ' Replace all cells in column C that do not contain "Name" with "-"
+        ' Delete all data in column C and replace with "-"
+        ws.Range("C1:C" & ws.Cells(Rows.Count, "C").End(xlUp).Row).Value = "-"
+
+        ' Copy all values from column I starting from I3 to column C starting from C2
+        ws.Range("I3:I" & ws.Cells(Rows.Count, "I").End(xlUp).Row).Copy Destination:=ws.Range("C2")
+
+        ' Replace all cells in column C that do not contain "Company Name" with "-"
         For Each cell In ws.Range("C1:C" & ws.Cells(Rows.Count, "C").End(xlUp).Row)
-            If InStr(cell.Value, "Name") = 0 Then
+            If InStr(cell.Value, "Company Name") = 0 Then
                 cell.Value = "-"
             End If
         Next cell
-
-        ' Replace all blank cells in the range A1 to R1910 with "-"
-        On Error Resume Next ' In case there are no blank cells
-        Set blankCells = ws.Range("A1:R1910").SpecialCells(xlCellTypeBlanks)
-        On Error GoTo 0
-        If Not blankCells Is Nothing Then
-            blankCells.Value = "-"
-        End If
-
-        ' Copy all cells from column C starting from C3 to column B starting from B2
-        ws.Range("C3:C" & ws.Cells(Rows.Count, "C").End(xlUp).Row).Copy Destination:=ws.Range("B2")
 
         ' Resize all the cells to fit the content
         ws.Cells.EntireColumn.AutoFit
