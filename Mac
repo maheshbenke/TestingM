@@ -7,6 +7,7 @@ Sub FormatWorksheet()
     Dim destinationCell As Range
     Dim sourceCellI As Range
     Dim sourceCellI2 As Range
+    Dim sourceCellI3 As Range
 
     For Each ws In ThisWorkbook.Worksheets
         ' Remove the first 8 rows
@@ -104,6 +105,31 @@ Sub FormatWorksheet()
         If Not sourceCellI2 Is Nothing Then
             ws.Range(sourceCellI2, ws.Cells(ws.Rows.Count, "I").End(xlUp)).Copy Destination:=ws.Range("F3")
         End If
+
+        ' Replace all cells in column F that do not contain "Security Name" with "-"
+        For Each cell In ws.Range("F1:F" & ws.Cells(Rows.Count, "F").End(xlUp).Row)
+            If InStr(cell.Value, "Security Name") = 0 Then
+                cell.Value = "-"
+            End If
+        Next cell
+
+        ' Find the first cell in column I that contains "ABC"
+        Set sourceCellI3 = ws.Columns("I").Find("ABC")
+        
+        ' If a cell containing "ABC" is found, copy the cells from that cell to the end of the column to column G starting from G3
+        If Not sourceCellI3 Is Nothing Then
+            ws.Range(sourceCellI3, ws.Cells(ws.Rows.Count, "I").End(xlUp)).Copy Destination:=ws.Range("G3")
+        End If
+        
+        ' Delete all data in column I and replace with "-"
+        ws.Range("I1:I" & ws.Cells(Rows.Count, "I").End(xlUp).Row).Value = "-"
+
+       ' Update the first row with specific headings
+       ws.Range("A1").Value = "A1"
+       ws.Range("B1").Value = "B1"
+       ws.Range("C1").Value = "C1"
+       ws.Range("D1").Value = "D1"
+       ws.Range("E1").Value = "E1"
 
         ' Resize all the cells to fit the content
         ws.Cells.EntireColumn.AutoFit
