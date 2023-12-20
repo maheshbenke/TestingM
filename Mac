@@ -8,6 +8,8 @@ Sub FormatWorksheet()
     Dim sourceCellI As Range
     Dim sourceCellI2 As Range
     Dim sourceCellI3 As Range
+    Dim sourceCellJ1 As Range
+    Dim sourceCellJ2 As Range
 
     For Each ws In ThisWorkbook.Worksheets
         ' Remove the first 8 rows
@@ -123,6 +125,22 @@ Sub FormatWorksheet()
         
         ' Delete all data in column I and replace with "-"
         ws.Range("I1:I" & ws.Cells(Rows.Count, "I").End(xlUp).Row).Value = "-"
+
+        ' Find the first cell in column J that contains "ABC"
+        Set sourceCellJ1 = ws.Columns("J").Find("ABC")
+        
+        ' If a cell containing "ABC" is found, copy the cells from that cell to the end of the column to column H starting from H3
+        If Not sourceCellJ1 Is Nothing Then
+            ws.Range(sourceCellJ1, ws.Cells(ws.Rows.Count, "J").End(xlUp)).Copy Destination:=ws.Range("H3")
+        End If
+        
+        ' Find the first cell in column J that contains "DEF"
+        Set sourceCellJ2 = ws.Columns("J").Find("DEF")
+        
+        ' If a cell containing "DEF" is found, copy the cells from that cell to the end of the column to column L starting from L3
+        If Not sourceCellJ2 Is Nothing Then
+            ws.Range(sourceCellJ2, ws.Cells(ws.Rows.Count, "J").End(xlUp)).Copy Destination:=ws.Range("L3")
+        End If
 
        ' Update the first row with specific headings
        ws.Range("A1").Value = "A1"
