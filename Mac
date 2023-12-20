@@ -10,6 +10,8 @@ Sub FormatWorksheet()
     Dim sourceCellI3 As Range
     Dim sourceCellJ1 As Range
     Dim sourceCellJ2 As Range
+    Dim sourceCellK1 As Range
+    Dim sourceCellK2 As Range
 
     For Each ws In ThisWorkbook.Worksheets
         ' Remove the first 8 rows
@@ -165,6 +167,39 @@ Sub FormatWorksheet()
                 cell.Value = "-"
             End If
         Next cell                    
+
+        ' Find the first cell in column K that contains "ABC"
+        Set sourceCellK1 = ws.Columns("K").Find("ABC")
+        
+        ' If a cell containing "ABC" is found, copy the cells from that cell to the end of the column to column I starting from I3
+        If Not sourceCellK1 Is Nothing Then
+            ws.Range(sourceCellK1, ws.Cells(ws.Rows.Count, "K").End(xlUp)).Copy Destination:=ws.Range("I3")
+        End If
+        
+        ' Find the first cell in column K that contains "DEF"
+        Set sourceCellK2 = ws.Columns("K").Find("DEF")
+        
+        ' If a cell containing "DEF" is found, copy the cells from that cell to the end of the column to column J starting from J3
+        If Not sourceCellK2 Is Nothing Then
+            ws.Range(sourceCellK2, ws.Cells(ws.Rows.Count, "K").End(xlUp)).Copy Destination:=ws.Range("J3")
+        End If
+
+        ' Replace all cells in column I that do not contain "ABC" with "-"
+        For Each cell In ws.Range("I1:I" & ws.Cells(Rows.Count, "I").End(xlUp).Row)
+            If InStr(cell.Value, "ABC") = 0 Then
+                cell.Value = "-"
+            End If
+        Next cell
+        
+        ' Replace all cells in column J that do not contain "DEF" with "-"
+        For Each cell In ws.Range("J1:J" & ws.Cells(Rows.Count, "J").End(xlUp).Row)
+            If InStr(cell.Value, "DEF") = 0 Then
+                cell.Value = "-"
+            End If
+        Next cell
+
+        ' Delete all data in column K and replace with "-"
+        ws.Range("K1:K" & ws.Cells(Rows.Count, "K").End(xlUp).Row).Value = "-"
 
        ' Update the first row with specific headings
        ws.Range("A1").Value = "A1"
