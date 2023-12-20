@@ -154,14 +154,14 @@ Sub FormatWorksheet()
             End If
         Next cell        
 
-        ' Replace all cells in column G that do not contain "ABC" with "-"
+        ' Replace all cells in column H that do not contain "ABC" with "-"
         For Each cell In ws.Range("H1:H" & ws.Cells(Rows.Count, "H").End(xlUp).Row)
             If InStr(cell.Value, "ABC") = 0 Then
                 cell.Value = "-"
             End If
         Next cell    
 
-        ' Replace all cells in column G that do not contain "ABC" with "-"
+        ' Replace all cells in column L that do not contain "ABC" with "-"
         For Each cell In ws.Range("L1:L" & ws.Cells(Rows.Count, "L").End(xlUp).Row)
             If InStr(cell.Value, "ABC") = 0 Then
                 cell.Value = "-"
