@@ -142,6 +142,30 @@ Sub FormatWorksheet()
             ws.Range(sourceCellJ2, ws.Cells(ws.Rows.Count, "J").End(xlUp)).Copy Destination:=ws.Range("L3")
         End If
 
+        ' Delete all data in column J and replace with "-"
+        ws.Range("J1:J" & ws.Cells(Rows.Count, "J").End(xlUp).Row).Value = "-"
+
+        ' Replace all cells in column G that do not contain "ABC" with "-"
+        For Each cell In ws.Range("G1:G" & ws.Cells(Rows.Count, "G").End(xlUp).Row)
+            If InStr(cell.Value, "ABC") = 0 Then
+                cell.Value = "-"
+            End If
+        Next cell        
+
+        ' Replace all cells in column G that do not contain "ABC" with "-"
+        For Each cell In ws.Range("H1:H" & ws.Cells(Rows.Count, "H").End(xlUp).Row)
+            If InStr(cell.Value, "ABC") = 0 Then
+                cell.Value = "-"
+            End If
+        Next cell    
+
+        ' Replace all cells in column G that do not contain "ABC" with "-"
+        For Each cell In ws.Range("L1:L" & ws.Cells(Rows.Count, "L").End(xlUp).Row)
+            If InStr(cell.Value, "ABC") = 0 Then
+                cell.Value = "-"
+            End If
+        Next cell                    
+
        ' Update the first row with specific headings
        ws.Range("A1").Value = "A1"
        ws.Range("B1").Value = "B1"
