@@ -1,4 +1,6 @@
 Sub FormatWorksheet()
+    Dim startTime As Double
+    Dim endTime As Double
     Dim ws As Worksheet
     Dim rng As Range
     Dim cell As Range
@@ -12,6 +14,9 @@ Sub FormatWorksheet()
     Dim sourceCellJ2 As Range
     Dim sourceCellK1 As Range
     Dim sourceCellK2 As Range
+    
+    ' Record the start time
+    startTime = Timer
 
     For Each ws In ThisWorkbook.Worksheets
         ' Remove the first 8 rows
@@ -212,4 +217,10 @@ Sub FormatWorksheet()
         ws.Cells.EntireColumn.AutoFit
         ws.Cells.EntireRow.AutoFit
     Next ws
+
+    ' Record the end time
+    endTime = Timer
+
+    ' Calculate and display the time taken
+    MsgBox "Time taken: " & Format((endTime - startTime) / 86400, "hh:mm:ss")
 End Sub
