@@ -314,6 +314,22 @@ Sub FormatWorksheet()
             End If
         Next cell
 
+        'FORMATING
+        ' Delete columns M, N, O, P
+        ws.Columns("M:P").Delete
+        
+        ' Remove bold formatting from column L
+        ws.Range("L:L").Font.Bold = False
+        
+        ' Change the font to "Calibri" and font size to 10 for the whole sheet
+        ws.Cells.Font.Name = "Calibri"
+        ws.Cells.Font.Size = 10
+        
+        ' Middle align all cells
+        ws.Cells.VerticalAlignment = xlVAlignCenter
+        
+        ' Align left to all cells
+        ws.Cells.HorizontalAlignment = xlHAlignLeft
        ' Update the first row with specific headings
        ws.Range("A1").Value = "A1"
        ws.Range("B1").Value = "B1"
