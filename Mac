@@ -254,14 +254,14 @@ Sub FormatWorksheet()
             cell.Value = Replace(cell.Value, "Name:", " ")
         Next cell
 
-        ' Iterate over each cell in column K
+        ' Iterate over each cell in column K and replace everything after "#" with a blank space
         For Each cell In ws.Range("K1:K" & ws.Cells(Rows.Count, "K").End(xlUp).Row)
             ' Find the position of "#"
             pos = InStr(cell.Value, "#")
             
-            ' If "#" is found, replace everything before it with a blank space
+            ' If "#" is found, replace everything after it with a blank space
             If pos > 0 Then
-                cell.Value = " " & Mid(cell.Value, pos + 1)
+                cell.Value = Left(cell.Value, pos - 1) & " "
             End If
         Next cell
 
