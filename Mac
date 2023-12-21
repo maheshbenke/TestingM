@@ -302,11 +302,12 @@ Sub FormatWorksheet()
         Next i
 
         ' Iterate over each cell in column G to Format the cell value as 8 digits with leading zeros
+        ' Iterate over each cell in column G
         For Each cell In ws.Range("G1:G" & ws.Cells(Rows.Count, "G").End(xlUp).Row)
-            ' If the cell is not empty
-            If cell.Value <> "" Then
+            ' If the cell is not empty and the cell's value is a number
+            If cell.Value <> "" And IsNumeric(cell.Value) Then
                 ' Convert the cell value to a number
-                cell.Value = CInt(cell.Value)
+                cell.Value = CLng(cell.Value)
                 ' Format the value as 8 digits with leading zeros
                 cell.NumberFormat = "00000000"
                 cell.Value = Format(cell.Value, "00000000")
