@@ -16,6 +16,8 @@ Sub FormatWorksheet()
     Dim sourceCellK2 As Range
     Dim sourceCellN As Range
     Dim counter As Long
+    Dim allCellsAreDash As Boolean
+    Dim i As Long
 
     ' Record the start time
     startTime = Timer
@@ -244,6 +246,42 @@ Sub FormatWorksheet()
                 counter = counter + 1
             End If
         Next cell
+
+        ' Iterate over each cell in column B and replace "ID:" with a blank space
+        For Each cell In ws.Range("B1:B" & ws.Cells(Rows.Count, "B").End(xlUp).Row)
+            ' If the cell contains "ID:", replace it with a blank space
+            cell.Value = Replace(cell.Value, "Name:", " ")
+        Next cell
+
+        ' Replace all blank cells in the range A1 to R1910 with "-"
+        On Error Resume Next ' In case there are no blank cells
+        Set blankCells = ws.Range("A1:R1910").SpecialCells(xlCellTypeBlanks)
+        On Error GoTo 0
+        If Not blankCells Is Nothing Then
+            blankCells.Value = "-"
+        End If
+
+        ' Iterate over each row in reverse order
+        For i = ws.Cells(Rows.Count, "A").End(xlUp).Row To 1 Step -1
+            Set rng = ws.Range("A" & i & ":R" & i)
+            
+            ' Assume all cells are "-"
+            allCellsAreDash = True
+            
+            ' Check each cell in the row
+            For Each cell In rng.Cells
+                If cell.Value <> "-" Then
+                    ' If a cell is not "-", set the flag to False and exit the loop
+                    allCellsAreDash = False
+                    Exit For
+                End If
+            Next cell
+            
+            ' If all cells are "-", delete the row
+            If allCellsAreDash Then
+                rng.EntireRow.Delete
+            End If
+        Next i
 
        ' Update the first row with specific headings
        ws.Range("A1").Value = "A1"
