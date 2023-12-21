@@ -352,14 +352,19 @@ Sub FormatWorksheet()
         ' Resize all the cells to fit the content
         ws.Cells.EntireColumn.AutoFit
         ws.Cells.EntireRow.AutoFit
-    Next ws
 
     ' Copy the Data to another workbook
-    ' Define the path of the template file
-    templatePath = "C:\rep\camp\Template.xlsx"  ' Replace "Template.xlsx" with the name of your template file
+    ' Show a file dialog to get the template file path
+    templatePath = Application.GetOpenFilename("Excel Files (*.xls*), *.xls*", , "Please select the template file")
     
-    ' Define the path of the new file
-    newFilePath = "C:\rep\camp\New Report-" & Format(Date, "mm-dd-yyyy") & ".xlsx"
+    ' Check if the user canceled the file dialog
+    If templatePath = "False" Then Exit Sub
+    
+    ' Show a file dialog to get the new file path
+    newFilePath = Application.GetSaveAsFilename(InitialFileName:="New Report-" & Format(Date, "mm-dd-yyyy") & ".xlsx", FileFilter:="Excel Files (*.xls*), *.xls*", Title:="Please select the location to save the new file")
+    
+    ' Check if the user canceled the file dialog
+    If newFilePath = "False" Then Exit Sub
     
     ' Open a new workbook using the template file
     Set newWb = Workbooks.Open(templatePath)
@@ -379,6 +384,8 @@ Sub FormatWorksheet()
     ' Save the new workbook with the new file name and close it
     newWb.SaveAs newFilePath
     newWb.Close SaveChanges:=False
+
+    Next ws
 
     ' Record the end time
     endTime = Timer
