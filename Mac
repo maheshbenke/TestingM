@@ -301,6 +301,14 @@ Sub FormatWorksheet()
             End If
         Next i
 
+        ' Iterate over each cell in column G
+        For Each cell In ws.Range("G1:G" & ws.Cells(Rows.Count, "G").End(xlUp).Row)
+            ' If the cell is not empty, format the value as 8 digits with leading zeros
+            If cell.Value <> "" Then
+                cell.Value = Format(cell.Value, "00000000")
+            End If
+        Next cell
+
        ' Update the first row with specific headings
        ws.Range("A1").Value = "A1"
        ws.Range("B1").Value = "B1"
