@@ -14,7 +14,8 @@ Sub FormatWorksheet()
     Dim sourceCellJ2 As Range
     Dim sourceCellK1 As Range
     Dim sourceCellK2 As Range
-    
+    Dim sourceCellN As Range
+
     ' Record the start time
     startTime = Timer
 
@@ -205,6 +206,30 @@ Sub FormatWorksheet()
 
         ' Delete all data in column K and replace with "-"
         ws.Range("K1:K" & ws.Cells(Rows.Count, "K").End(xlUp).Row).Value = "-"
+
+        ' Find the first cell in column N that contains "ABC"
+        Set sourceCellN = ws.Columns("N").Find("ABC")
+        
+        ' If a cell containing "ABC" is found, copy the cells from that cell to the end of the column to column K starting from K3
+        If Not sourceCellN Is Nothing Then
+            ws.Range(sourceCellN, ws.Cells(ws.Rows.Count, "N").End(xlUp)).Copy Destination:=ws.Range("K3")
+        End If
+        
+        ' Replace all cells in column K that do not contain "ABC" with "-"
+        For Each cell In ws.Range("K1:K" & ws.Cells(Rows.Count, "K").End(xlUp).Row)
+            If InStr(cell.Value, "ABC") = 0 Then
+                cell.Value = "-"
+            End If
+        Next cell
+        
+        ' Delete all data in column N and replace with "-"
+        ws.Range("N1:N" & ws.Cells(Rows.Count, "N").End(xlUp).Row).Value = "-"
+
+         ' Delete all data in column O and replace with "-"
+        ws.Range("O1:O" & ws.Cells(Rows.Count, "O").End(xlUp).Row).Value = "-"
+
+        ' Delete all data in column P and replace with "-"
+        ws.Range("P1:P" & ws.Cells(Rows.Count, "P").End(xlUp).Row).Value = "-"               
 
        ' Update the first row with specific headings
        ws.Range("A1").Value = "A1"
