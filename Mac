@@ -301,10 +301,14 @@ Sub FormatWorksheet()
             End If
         Next i
 
-        ' Iterate over each cell in column G
+        ' Iterate over each cell in column G to Format the cell value as 8 digits with leading zeros
         For Each cell In ws.Range("G1:G" & ws.Cells(Rows.Count, "G").End(xlUp).Row)
-            ' If the cell is not empty, format the value as 8 digits with leading zeros
+            ' If the cell is not empty
             If cell.Value <> "" Then
+                ' Convert the cell value to a number
+                cell.Value = CInt(cell.Value)
+                ' Format the value as 8 digits with leading zeros
+                cell.NumberFormat = "00000000"
                 cell.Value = Format(cell.Value, "00000000")
             End If
         Next cell
