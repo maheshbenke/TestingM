@@ -19,6 +19,11 @@ Sub FormatWorksheet()
     Dim allCellsAreDash As Boolean
     Dim i As Long
     Dim pos As Integer
+    Dim newWb As Workbook
+    Dim newWs As Worksheet
+    Dim templatePath As String
+    Dim newFilePath As String
+
 
     ' Record the start time
     startTime = Timer
@@ -341,6 +346,32 @@ Sub FormatWorksheet()
         ws.Cells.EntireColumn.AutoFit
         ws.Cells.EntireRow.AutoFit
     Next ws
+
+    ' Copy the Data to another workbook
+    ' Define the path of the template file
+    templatePath = "C:\rep\camp\Template.xlsx"  ' Replace "Template.xlsx" with the name of your template file
+    
+    ' Define the path of the new file
+    newFilePath = "C:\rep\camp\New Report-" & Format(Date, "mm-dd-yyyy") & ".xlsx"
+    
+    ' Open a new workbook using the template file
+    Set newWb = Workbooks.Open(templatePath)
+    
+    ' Get the first worksheet in the new workbook
+    Set newWs = newWb.Sheets(1)
+    
+    ' Copy all data from the current worksheet
+    ws.UsedRange.Copy
+    
+    ' Paste the data as values into the new worksheet starting at line 9
+    newWs.Cells(9, 1).PasteSpecial Paste:=xlPasteValues
+    
+    ' Clear the clipboard
+    Application.CutCopyMode = False
+    
+    ' Save the new workbook with the new file name and close it
+    newWb.SaveAs newFilePath
+    newWb.Close SaveChanges:=False
 
     ' Record the end time
     endTime = Timer
