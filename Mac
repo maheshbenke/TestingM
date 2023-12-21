@@ -15,6 +15,7 @@ Sub FormatWorksheet()
     Dim sourceCellK1 As Range
     Dim sourceCellK2 As Range
     Dim sourceCellN As Range
+    Dim counter As Long
 
     ' Record the start time
     startTime = Timer
@@ -231,12 +232,14 @@ Sub FormatWorksheet()
         ' Delete all data in column P and replace with "-"
         ws.Range("P1:P" & ws.Cells(Rows.Count, "P").End(xlUp).Row).Value = "-"               
 
-        ' Replace the cells in column A that contain "APP ID" with a counter starting with number 1
-        Dim counter As Integer
+        ' Replace the cells in column A that contain "EMP ID" with a counter starting with number 1
+        ' Initialize the counter
         counter = 1
-        
+    
+        ' Iterate over each cell in column A
         For Each cell In ws.Range("A1:A" & ws.Cells(Rows.Count, "A").End(xlUp).Row)
-            If cell.Value = "APP ID" Then
+            ' If the cell contains "EMP ID", replace it with the counter and increment the counter
+            If InStr(cell.Value, "EMP ID") > 0 Then
                 cell.Value = counter
                 counter = counter + 1
             End If
