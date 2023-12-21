@@ -335,6 +335,13 @@ Sub FormatWorksheet()
         
         ' Align left to all cells
         ws.Cells.HorizontalAlignment = xlHAlignLeft
+
+        ' Iterate over each cell in the range A1 to P1910
+        For Each cell In ws.Range("A1:P1910")
+            ' If the cell contains "-", replace it with a blank space
+            cell.Replace What:="-", Replacement:=" ", LookAt:=xlPart, MatchCase:=False
+        Next cell
+
        ' Update the first row with specific headings
        ws.Range("A1").Value = "A1"
        ws.Range("B1").Value = "B1"
