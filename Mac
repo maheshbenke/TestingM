@@ -367,11 +367,11 @@ Sub FormatWorksheet()
     ' Get the first worksheet in the new workbook
     Set newWs = newWb.Sheets(1)
     
-    ' Copy all data from the current worksheet
-    ws.UsedRange.Copy
+    ' Copy data from the range A2 to L500 from the current worksheet
+    ws.Range("A2:L500").Copy
     
-    ' Paste the data as values into the new worksheet starting at line 9
-    newWs.Cells(9, 1).PasteSpecial Paste:=xlPasteValues
+    ' Paste the data as values into the new worksheet starting at cell A10
+    newWs.Range("A10").PasteSpecial Paste:=xlPasteValues
     
     ' Clear the clipboard
     Application.CutCopyMode = False
