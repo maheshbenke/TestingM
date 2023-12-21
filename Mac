@@ -18,6 +18,7 @@ Sub FormatWorksheet()
     Dim counter As Long
     Dim allCellsAreDash As Boolean
     Dim i As Long
+    Dim pos As Integer
 
     ' Record the start time
     startTime = Timer
@@ -251,6 +252,17 @@ Sub FormatWorksheet()
         For Each cell In ws.Range("B1:B" & ws.Cells(Rows.Count, "B").End(xlUp).Row)
             ' If the cell contains "ID:", replace it with a blank space
             cell.Value = Replace(cell.Value, "Name:", " ")
+        Next cell
+
+        ' Iterate over each cell in column K
+        For Each cell In ws.Range("K1:K" & ws.Cells(Rows.Count, "K").End(xlUp).Row)
+            ' Find the position of "#"
+            pos = InStr(cell.Value, "#")
+            
+            ' If "#" is found, replace everything before it with a blank space
+            If pos > 0 Then
+                cell.Value = " " & Mid(cell.Value, pos + 1)
+            End If
         Next cell
 
         ' Iterate over each cell in the range A1 to P1910
